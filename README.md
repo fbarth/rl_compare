@@ -19,7 +19,7 @@ Vamos utilizar os ambientes disponibilizados na biblioteca https://gymnasium.far
 
 ## Matriz de comparação
 
-
+[Documento com a matriz de comparação a ser executada neste projeto](m.pdf)
 
 ## Estrutura do repositório
 
