@@ -38,22 +38,25 @@ def train():
     # Stable-baseline PPO usage docs:
     # https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html
 
-    model = PPO(
-        policy="MlpPolicy",
-        env=vec_env,
-        learning_rate=1e-4,
-        n_steps=512,
-        batch_size=128,
-        n_epochs=10,
-        gamma=0.99,
-        gae_lambda=0.95,
-        clip_range=0.2,
-        vf_coef=0.5,
-        ent_coef=0.0,
-        max_grad_norm=0.5,
-        tensorboard_log=None,
-        verbose=1
-    )
+    # model = PPO(
+    #     policy="MlpPolicy",
+    #     env=vec_env,
+    #     learning_rate=1e-4,
+    #     n_steps=512,
+    #     batch_size=128,
+    #     n_epochs=10,
+    #     gamma=0.99,
+    #     gae_lambda=0.95,
+    #     clip_range=0.2,
+    #     vf_coef=0.5,
+    #     ent_coef=0.0,
+    #     max_grad_norm=0.5,
+    #     tensorboard_log=None,
+    #     verbose=1
+    # )
+
+    model = PPO.load(MODEL_PATH)
+    model.set_env(vec_env)
 
     model.set_logger(new_logger)
     model.learn(total_timesteps=1_000_000)
@@ -79,6 +82,7 @@ def test():
     (obs,_) = env.reset()
     for i in range(1000):
         action, _state = model.predict(obs, deterministic=True)
+        # print(i, action)
         obs, reward, done, truncated, info = env.step(action)
         env.render()
         if done:
@@ -88,9 +92,8 @@ def test():
 
 def main():
     train_model = input("Train model? (Y/n): ")
-    if train_model.lower() == "n":
-        sys.exit(test())
-    train()
+    if train_model.lower() != "n":
+        train()
     sys.exit(test())
 
 if __name__ == "__main__":
