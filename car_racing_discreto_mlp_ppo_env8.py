@@ -17,17 +17,30 @@ ENV_NAME = "CarRacing-v2"
 def train():
     new_logger = configure(RESULTS_PATH, ["stdout", "csv", "tensorboard"])
 
-    # env = gym.make(ENV_NAME, domain_randomize=False, continuous=False)
+    env = gym.make(
+        ENV_NAME,
+        render_mode="rgb_array",
+        lap_complete_percent=0.95,
+        domain_randomize=False,
+        continuous=False
+    )
     vec_env = make_vec_env(
-       ENV_NAME, n_envs=8, env_kwargs={"domain_randomize": False, "continuous": False}
+        ENV_NAME,
+        n_envs=8,
+        env_kwargs={
+            "render_mode": "rgb_array",
+            "lap_complete_percent": 0.95,
+            "domain_randomize": False,
+            "continuous": False
+        }
     )
 
     # Stable-baseline PPO usage docs:
     # https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html
 
     model = PPO(
-        policy = "MlpPolicy",
-        env = vec_env,
+        policy="MlpPolicy",
+        env=vec_env,
         learning_rate=1e-4,
         n_steps=512,
         batch_size=128,
@@ -38,23 +51,31 @@ def train():
         vf_coef=0.5,
         ent_coef=0.0,
         max_grad_norm=0.5,
-        tensorboard_log=None
+        tensorboard_log=None,
+        verbose=1
     )
 
     model.set_logger(new_logger)
-    model.learn(total_timesteps=100_000)
+    model.learn(total_timesteps=1_000_000)
     model.save(MODEL_PATH)
 
     mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
     print(f'Mean reward: {mean_reward} +/- {std_reward:.2f}')
+    env.close()
     return 0
 
 def test():
     model = PPO.load(MODEL_PATH)
 
+    print("Trained model. Testing...")
     env = gym.make(
-        ENV_NAME, domain_randomize=False, continuous=False, render_mode="human"
+        ENV_NAME,
+        render_mode="human",
+        lap_complete_percent=0.95,
+        domain_randomize=False,
+        continuous=False
     )
+
     (obs,_) = env.reset()
     for i in range(1000):
         action, _state = model.predict(obs, deterministic=True)
