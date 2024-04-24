@@ -14,19 +14,14 @@ def train():
     print(f'Training model {MODEL_NAME}')
     new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard"])
 
-    env = gym.make(ENV_NAME, render_mode="rgb_array",
-                   lap_complete_percent=0.95,
-                   domain_randomize=False,
-                   continuous=False)
+    env_kwargs = {
+        "continuous": False,
+    }
 
     vec_env = make_vec_env(ENV_NAME,
                            n_envs=1,
-                           env_kwargs={
-                               "render_mode": "rgb_array",
-                               "lap_complete_percent": 0.95,
-                               "domain_randomize": False,
-                               "continuous": False
-                           })
+                           env_kwargs=env_kwargs,
+                           )
 
     # docs de toda documentação em https://stable-baselines3.readthedocs.io/en/master/modules/dqn.html
     #
@@ -45,13 +40,12 @@ def train():
     )
 
     model.set_logger(new_logger)
-    model.learn(total_timesteps=100_000)
+    model.learn(total_timesteps=600_000)
     model.save(f"models/{MODEL_NAME}")
 
     mean_reward, std_reward = evaluate_policy(
         model, model.get_env(), n_eval_episodes=10)
     print(f'Mean reward: {mean_reward} +/- {std_reward:.2f}')
-    env.close()
 
     del model
     print(f'Model {MODEL_NAME} trained.')
@@ -64,19 +58,17 @@ def test():
     env = gym.make(
         ENV_NAME,
         render_mode="human",
-        lap_complete_percent=0.95,
-        domain_randomize=False,
         continuous=False
     )
 
     print('Testing model')
     (obs, _) = env.reset()
-    for i in range(1000):
+    done = False
+    while not done:
         action, _state = model.predict(obs, deterministic=True)
         obs, reward, done, truncated, info = env.step(action)
+        done = done or truncated
         env.render()
-        if done:
-            obs = env.reset()
     env.close()
     print('Test finished')
 
