@@ -9,15 +9,24 @@ tmp_path = "./results/car_racing_discrete_mlp_env-1/"
 new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard"])
 
 env = gym.make("CarRacing-v2")
-env.reset(options={"continuous": False})
+vec_env = make_vec_env("CarRacing-v2",
+                        n_envs=1,
+                        env_kwargs={
+                            "render_mode": "rgb_array",
+                            "domain_randomize": False,
+                            "continuous": False
+                    })
 
-model = A2C(policy = "MlpPolicy", env = env)
-vec_env = make_vec_env("CarRacing-v2", n_envs=1)
-
-model = A2C("MlpPolicy", vec_env, verbose=1)
+model = A2C(
+   policy = "MlpPolicy",
+   env = vec_env,
+   learning_rate=1e-3, 
+   gamma=0.99,
+   n_steps = 30
+   )
 
 model.set_logger(new_logger)
-model.learn(total_timesteps=100_000)
+model.learn(total_timesteps=700_000)
 model.save("models/car_racing_discrete_mlp_env-1")
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
@@ -27,10 +36,10 @@ del model
 model = A2C.load("models/car_racing_discrete_mlp_env-1")
 
 print('modelo treinado')
-env = gym.make("CarRacing-v2", render_mode='human')
+env = gym.make("CarRacing-v2", render_mode='human', continuous=False)
 
 
-(obs,_) = env.reset(options={"continuous": False})
+(obs,_) = env.reset()
 for i in range(1000):
     action, _state = model.predict(obs, deterministic=True)
     obs, reward, done, truncated, info = env.step(action)
