@@ -13,7 +13,21 @@ vec_env = make_vec_env("CarRacing-v2", n_envs=1)
 
 # docs de toda documentação em https://stable-baselines3.readthedocs.io/en/master/modules/dqn.html
 #
-model = PPO(policy = "CnnPolicy", env=vec_env, verbose=1)
+model = PPO(
+  policy = "CnnPolicy", 
+  env = vec_env,
+  learning_rate=1e-3,
+  n_steps=512,
+  batch_size=128,
+  n_epochs=10,
+  gamma=0.99,
+  gae_lambda=0.95,
+  clip_range=0.2,
+  vf_coef=0.5,
+  ent_coef=0.0,
+  max_grad_norm=0.5,
+  tensorboard_log=None
+)
 
 
 model.set_logger(new_logger)
