@@ -2,5 +2,11 @@ stable-baselines3
 gymnasium
 tensorboard
 pygame
+gymnasium[box2d]
+
+seaborn
+matplotlib
+pandas
+ipykernel
 
 
