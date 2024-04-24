@@ -25,9 +25,9 @@ vec_env = make_vec_env("CarRacing-v2",
 model = A2C(
    policy = "MlpPolicy",
    env = vec_env,
-   learning_rate=1e-3, 
-   gamma=0.99,
-   n_steps = 100
+   learning_rate=1e-4, 
+   gamma=0.95,
+   n_steps = 200
    )
 
 model.set_logger(new_logger)
