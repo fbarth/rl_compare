@@ -2,5 +2,4 @@ stable-baselines3
 gymnasium
 tensorboard
 pygame
-
-
+gym[box2d]
