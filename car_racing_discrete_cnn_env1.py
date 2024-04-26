@@ -1,4 +1,3 @@
-
 from stable_baselines3 import PPO, DQN, A2C
 import gymnasium as gym
 from stable_baselines3.common.logger import configure
@@ -28,7 +27,6 @@ model = PPO(
   max_grad_norm=0.5,
   tensorboard_log=None
 )
-
 
 model.set_logger(new_logger)
 model.learn(total_timesteps=100_000)
