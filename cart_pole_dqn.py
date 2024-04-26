@@ -1,4 +1,3 @@
-
 from stable_baselines3 import PPO, DQN, A2C
 import gymnasium as gym
 from stable_baselines3.common.logger import configure
@@ -28,7 +27,7 @@ model = DQN(
    )
 
 model.set_logger(new_logger)
-model.learn(total_timesteps=100_000)
+model.learn(total_timesteps=100000)
 model.save("models/cartpole_dqn")
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
