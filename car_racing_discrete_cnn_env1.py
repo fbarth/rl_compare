@@ -28,15 +28,9 @@ model = PPO(
   tensorboard_log=None
 )
 
-
 model.set_logger(new_logger)
-<<<<<<< HEAD:cart_pole_dqn.py
-model.learn(total_timesteps=100000)
-model.save("models/cartpole_dqn")
-=======
 model.learn(total_timesteps=100_000)
 model.save("models/car_racing_ppo_cnn_env1")
->>>>>>> dc8d6de97ba9c9eb5b882e67dd5cbd7836729eff:car_racing_discrete_cnn_env1.py
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
 print(f'Mean reward: {mean_reward} +/- {std_reward:.2f}')
