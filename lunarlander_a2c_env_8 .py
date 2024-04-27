@@ -4,7 +4,7 @@ import gymnasium as gym
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.evaluation import evaluate_policy
 
-tmp_path = "./results/"
+tmp_path = "./results/lunarlander_a2c_env_8/"
 new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard"])
 
 env = make_vec_env("LunarLander-v2", n_envs=8)
