@@ -2,18 +2,15 @@ from stable_baselines3 import PPO, DQN, A2C
 import gymnasium as gym
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.evaluation import evaluate_policy
-import csv
-
 
 tmp_path = "../results/cartpole_a2c_env1/"
-
 new_logger = configure(tmp_path, ["stdout", "csv"])
 
 env = gym.make("CartPole-v1")
 model = A2C(policy = "MlpPolicy", env = env)
 
 model.set_logger(new_logger)
-model.learn(total_timesteps=100000)
+model.learn(total_timesteps=300_000)
 model.save("../models/cartpole_a2c_env1")
 
 
@@ -22,7 +19,6 @@ print(f'Mean reward: {mean_reward} +/- {std_reward:.2f}')
 
 print('modelo treinado')
 env = gym.make("CartPole-v1", render_mode='human')
-# obs = env.reset()
 (obs,_) = env.reset()
 
 del model
@@ -36,14 +32,5 @@ for i in range(1000):
     env.render()
     rewards.append(reward)
 
-    ####
     if done:
-    #   obs = env.reset()
       (obs,_) = env.reset()
-
-
-# with open(csv_file, mode='w', newline='') as file:
-#     writer = csv.writer(file)
-#     writer.writerow(['Iteration', 'Reward'])
-#     for reward in rewards:
-#         writer.writerow(reward)

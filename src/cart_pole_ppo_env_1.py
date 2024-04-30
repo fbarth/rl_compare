@@ -14,7 +14,7 @@ vec_env = make_vec_env("CartPole-v1", n_envs=1)
 model = PPO("MlpPolicy", vec_env, verbose=1)
 
 model.set_logger(new_logger)
-model.learn(total_timesteps=100_000)
+model.learn(total_timesteps=300_000)
 model.save("../models/cartpole_ppo_env_1")
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
