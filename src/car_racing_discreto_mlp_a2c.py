@@ -5,7 +5,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 
 
-tmp_path = "./results/car_racing_discreto_mlp_a2c/"
+tmp_path = "../results/car_racing_discreto_mlp_a2c/"
 new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard"])
 
 env = gym.make("CarRacing-v2")
@@ -19,13 +19,13 @@ model = A2C(
 
 model.set_logger(new_logger)
 model.learn(total_timesteps=100_000)
-model.save("models/car_racing_discreto_mlp_a2c")
+model.save("../models/car_racing_discreto_mlp_a2c")
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
 print(f"Mean reward: {mean_reward} +/- {std_reward:.2f}")
 
 del model
-model = A2C.load("models/car_racing_discreto_mlp_a2c")
+model = A2C.load("../models/car_racing_discreto_mlp_a2c")
 
 print("Modelo treinado!")
 

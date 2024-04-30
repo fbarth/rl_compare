@@ -11,8 +11,8 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 
 BASE_PATH = "car_racing_discreto_MLP_ppo_env8"
-RESULTS_PATH = f"./results/{BASE_PATH}/"
-MODEL_PATH = f"./models/{BASE_PATH}"
+RESULTS_PATH = f"../results/{BASE_PATH}/"
+MODEL_PATH = f"../models/{BASE_PATH}"
 ENV_NAME = "CarRacing-v2"
 
 def main():

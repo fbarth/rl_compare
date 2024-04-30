@@ -4,8 +4,8 @@ from stable_baselines3.common.logger import configure
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 
-TMP_PATH = "./results/car_racing_continous_ppo_mlp_1_env/"
-MODEL_PATH = "./models/car_racing_continous_ppo_mlp_1_env"
+TMP_PATH = "../results/car_racing_continous_ppo_mlp_1_env/"
+MODEL_PATH = "../models/car_racing_continous_ppo_mlp_1_env"
 ENV_NAME = "CarRacing-v2"
 
 new_logger = configure(TMP_PATH, ["stdout", "csv", "tensorboard"])

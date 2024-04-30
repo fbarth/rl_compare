@@ -7,7 +7,7 @@ from stable_baselines3.common.env_util import make_vec_env
 
 MODEL_NAME = 'car_racing_discreto_cnn_dqn'
 ENV_NAME = 'CarRacing-v2'
-tmp_path = f"./results/{MODEL_NAME}/"
+tmp_path = f"../results/{MODEL_NAME}/"
 
 
 def train():
@@ -41,7 +41,7 @@ def train():
 
     model.set_logger(new_logger)
     model.learn(total_timesteps=600_000)
-    model.save(f"models/{MODEL_NAME}")
+    model.save(f"../models/{MODEL_NAME}")
 
     mean_reward, std_reward = evaluate_policy(
         model, model.get_env(), n_eval_episodes=10)
@@ -53,7 +53,7 @@ def train():
 
 def test():
     print(f'Loading model {MODEL_NAME}')
-    model = DQN.load(f"models/{MODEL_NAME}")
+    model = DQN.load(f"../models/{MODEL_NAME}")
 
     env = gym.make(
         ENV_NAME,

@@ -5,7 +5,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 import csv
 
 
-tmp_path = "./results/cartpole_a2c_env1/"
+tmp_path = "../results/cartpole_a2c_env1/"
 
 new_logger = configure(tmp_path, ["stdout", "csv"])
 
@@ -14,7 +14,7 @@ model = A2C(policy = "MlpPolicy", env = env)
 
 model.set_logger(new_logger)
 model.learn(total_timesteps=100000)
-model.save("models/cartpole_a2c_env1")
+model.save("../models/cartpole_a2c_env1")
 
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
@@ -26,7 +26,7 @@ env = gym.make("CartPole-v1", render_mode='human')
 (obs,_) = env.reset()
 
 del model
-model = A2C.load("models/cartpole_a2c_env1")
+model = A2C.load("../models/cartpole_a2c_env1")
 
 
 rewards = []

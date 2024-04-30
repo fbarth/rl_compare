@@ -5,15 +5,15 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 
 ENV_NAME = "CarRacing-v2"
-TEMP_PATH = "./results/car_racing_disc_cnn_ppo_env_8/"
-MODEL_PATH = "models/car_racing_discreto_cnn_ppo_env_8"
+TEMP_PATH = "../results/car_racing_continuous_cnn_ppo_env_1/"
+MODEL_PATH = "../models/car_racing_continuous_cnn_ppo_env_1"
 
 def train():
     new_logger = configure(TEMP_PATH, ["stdout", "csv", "tensorboard"])
     env_kwargs = {
-        "continuous": False,
+        "continuous": True,
     }
-    vec_env = make_vec_env(ENV_NAME, n_envs=8, env_kwargs=env_kwargs)
+    vec_env = make_vec_env(ENV_NAME, n_envs=1, env_kwargs=env_kwargs)
 
     model = PPO(
         policy="CnnPolicy",
@@ -41,7 +41,7 @@ def test():
     model = PPO.load(MODEL_PATH)
 
     print("modelo treinado")
-    env = gym.make(ENV_NAME, render_mode="human", continuous=False)
+    env = gym.make(ENV_NAME, render_mode="human", continuous=True)
     (obs, _) = env.reset()
     done = False
     while not done:
