@@ -12,19 +12,21 @@ vec_env = make_vec_env("CartPole-v1", n_envs=1)
 
 # docs de toda documentação em https://stable-baselines3.readthedocs.io/en/master/modules/dqn.html
 #
-model = DQN(
-   policy = "MlpPolicy",
-   env = vec_env, 
-   learning_rate=1e-3, 
-   buffer_size=1_000, 
-   batch_size=64, 
-   gamma=0.99, 
-   exploration_fraction=0.1,
-   exploration_initial_eps=0.9, 
-   exploration_final_eps=0.02, 
-   tau=1,
-   tensorboard_log=None
-   )
+# model = DQN(
+#    policy = "MlpPolicy",
+#    env = vec_env, 
+#    learning_rate=1e-3, 
+#    buffer_size=1_000, 
+#    batch_size=64, 
+#    gamma=0.99, 
+#    exploration_fraction=0.1,
+#    exploration_initial_eps=0.9, 
+#    exploration_final_eps=0.02, 
+#    tau=1,
+#    tensorboard_log=None
+#    )
+
+model = DQN("MlpPolicy", vec_env, verbose=1)
 
 model.set_logger(new_logger)
 model.learn(total_timesteps=300_000)
