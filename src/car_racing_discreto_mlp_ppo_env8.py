@@ -53,7 +53,7 @@ def train():
     )
 
     model.set_logger(new_logger)
-    model.learn(total_timesteps=500_000)
+    model.learn(total_timesteps=600_000)
     model.save(MODEL_PATH)
 
     mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)

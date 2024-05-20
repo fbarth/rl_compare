@@ -18,7 +18,7 @@ model = A2C(
 )
 
 model.set_logger(new_logger)
-model.learn(total_timesteps=100_000)
+model.learn(total_timesteps=600_000)
 model.save("../models/car_racing_discreto_mlp_a2c")
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)

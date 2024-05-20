@@ -1,8 +1,10 @@
 stable-baselines3
+swig
 gymnasium
 tensorboard
 pygame
-gymnasium[box2d]
+pyproject-toml
+#gymnasium[box2d]
 seaborn
 matplotlib
 pandas
