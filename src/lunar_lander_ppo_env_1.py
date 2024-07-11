@@ -10,8 +10,8 @@ new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard"])
 
 env = gym.make("LunarLander-v2")
 vec_env = make_vec_env("LunarLander-v2", n_envs=1)
-
 model = PPO("MlpPolicy", vec_env, verbose=1)
+
 model.set_logger(new_logger)
 model.learn(total_timesteps=100_000)
 model.save("../models/lunar_lander_ppo_env_1")

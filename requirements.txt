@@ -10,3 +10,5 @@ matplotlib
 pandas
 ipykernel
 opencv-python
+nbconvert
+ipython
